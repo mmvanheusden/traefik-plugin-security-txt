@@ -42,14 +42,16 @@ type Config struct {
 	Overwrite     bool `json:"overwrite,omitempty"`
 	LastModified  bool `json:"lastModified,omitempty"`
 	EnableComment bool `json:"enableComment,omitempty"`
+	Fallback      bool `json:"fallback,omitempty"`
 }
 
 // CreateConfig creates the default plugin configuration.
 func CreateConfig() *Config {
 	return &Config{
-		Overwrite:     false,
+		Overwrite:     true,
 		LastModified:  false,
 		EnableComment: true,
+		Fallback:      true,
 	}
 }
 
@@ -76,6 +78,7 @@ type SecurityTxtPlugin struct {
 	overwrite     bool
 	lastModified  bool
 	enableComment bool
+	fallback      bool
 
 	next http.Handler
 }
@@ -102,6 +105,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 		hiring:             optString(config.Hiring),
 		policy:             optString(config.Policy),
 		preferredLanguages: config.PreferredLanguages,
+		fallback:           config.Fallback,
 
 		overwrite:     config.Overwrite,
 		lastModified:  config.LastModified,
@@ -112,7 +116,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (p *SecurityTxtPlugin) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	if strings.ToLower(req.URL.Path) != "/.well-known/security.txt" {
+	if strings.ToLower(req.URL.Path) != "/.well-known/security.txt" && !(p.fallback && strings.ToLower(req.URL.Path) == "/security.txt") {
 		p.next.ServeHTTP(rw, req)
 		return
 	}

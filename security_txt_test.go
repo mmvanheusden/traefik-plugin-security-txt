@@ -39,6 +39,7 @@ func TestEverything(t *testing.T) {
 	cfg.Canonical = []string{"https://example.com/.well-known/security.txt"}
 	cfg.Encryption = "https://example.com/pgp-key.txt"
 	cfg.Hiring = "mailto:hiring@example.com"
+	cfg.Fallback = false
 
 	ctx := context.Background()
 	next := http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {})
@@ -93,6 +94,48 @@ func TestMinimal(t *testing.T) {
 	want := "Contact: mailto:security@example.com\nExpires: 2027-12-31T18:37:07Z"
 	if recorder.Body.String() != want {
 		t.Errorf("got body %q, want %q", recorder.Body.String(), want)
+	}
+}
+
+func TestFallback(t *testing.T) {
+	cfg := plugin.CreateConfig()
+	cfg.Contact = []string{"mailto:security@example.com"}
+	cfg.Expires = "2027-12-31T18:37:07Z"
+	cfg.EnableComment = false
+
+	handler, err := plugin.New(context.Background(), http.NotFoundHandler(), cfg, "security-txt-plugin")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	recorder := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodGet, "http://localhost/security.txt", nil)
+	handler.ServeHTTP(recorder, req)
+
+	want := "Contact: mailto:security@example.com\nExpires: 2027-12-31T18:37:07Z"
+	if recorder.Body.String() != want {
+		t.Errorf("got body %q, want %q", recorder.Body.String(), want)
+	}
+}
+
+func TestNoFallback(t *testing.T) {
+	cfg := plugin.CreateConfig()
+	cfg.Contact = []string{"mailto:security@example.com"}
+	cfg.Expires = "2027-12-31T18:37:07Z"
+	cfg.EnableComment = false
+	cfg.Fallback = false
+
+	handler, err := plugin.New(context.Background(), http.NotFoundHandler(), cfg, "security-txt-plugin")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	recorder := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodGet, "http://localhost/security.txt", nil)
+	handler.ServeHTTP(recorder, req)
+
+	if recorder.Code != http.StatusNotFound {
+		t.Errorf("Fallback disabled, but its not returning 404.")
 	}
 }
 

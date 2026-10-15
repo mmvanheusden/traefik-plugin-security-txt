@@ -26,7 +26,7 @@ experimental:
   plugins:
     security-txt:
       moduleName: github.com/mmvanheusden/traefik-plugin-security-txt
-      version: v0.1.0
+      version: v0.2.0
 ```
 
 ## Usage
@@ -77,6 +77,7 @@ http:
 | enableComment      | Prepend comment that identifies this plugin in Security.txt. **ENABLED BY DEFAULT**                                                                                         |                                                                                                          | NO       | `false`                                                |
 | overwrite          | Remove the original Security.txt file content. **ENABLED BY DEFAULT**                                                                                                       |                                                                                                          | NO       | `true`                                                 |
 | lastModified       | If `true`, doesn't leave out the `Last-Modified` header.                                                                                                                    |                                                                                                          | NO       | `true`                                                 |
+| fallback           | Also serve at `/security.txt`, not only at `/.well-known/security.txt`. **ENABLED BY DEFAULT**                                                                              |                                                                                                          | NO       | `true`                                                 |
 
 ## Development
 
