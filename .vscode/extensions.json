@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "docker.docker",
+        "golang.go",
+        "ms-vscode.makefile-tools",
+        "davidanson.vscode-markdownlint",
+        "github.vscode-github-actions",
+        "ymotongpoo.licenser",
+        "ms-azuretools.vscode-containers"
+    ]
+}

@@ -1,0 +1,12 @@
+displayName: Security.txt
+type: middleware
+
+import: github.com/mmvanheusden/traefik-plugin-security-txt
+
+summary: "Traefik plugin to create, overwrite or complete the security.txt file"
+
+testData:
+  expires: "2027-12-31T18:37:07Z"
+  contact: ["mailto:security@example.com"]
+  policy: "https://example.com/disclosure-policy"
+  preferredLanguages: ["nl", "en"]
