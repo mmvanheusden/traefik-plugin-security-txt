@@ -184,6 +184,7 @@ func (p *SecurityTxtPlugin) ServeHTTP(rw http.ResponseWriter, req *http.Request)
 	}
 	log.Printf("%v", body)
 	_, err := rw.Write([]byte(strings.Join(body, "\n")))
+	rw.Write([]byte("\n")) // RFC 9116: End with a empty line
 	if err != nil {
 		log.Printf("unable to write body: %v", err)
 	}

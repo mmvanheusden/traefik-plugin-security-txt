@@ -58,7 +58,7 @@ func TestEverything(t *testing.T) {
 
 	handler.ServeHTTP(recorder, req)
 
-	wantedRes := "Contact: mailto:security@example.com\nContact: https://example.com/contact\nExpires: 2027-12-31T18:37:07Z\nPolicy: https://example.com/disclosure-policy\nEncryption: https://example.com/pgp-key.txt\nHiring: mailto:hiring@example.com\nAcknowledgments: https://example.com/hall-of-fame\nCanonical: https://example.com/.well-known/security.txt\nPreferred-Languages: nl, de, en"
+	wantedRes := "Contact: mailto:security@example.com\nContact: https://example.com/contact\nExpires: 2027-12-31T18:37:07Z\nPolicy: https://example.com/disclosure-policy\nEncryption: https://example.com/pgp-key.txt\nHiring: mailto:hiring@example.com\nAcknowledgments: https://example.com/hall-of-fame\nCanonical: https://example.com/.well-known/security.txt\nPreferred-Languages: nl, de, en\n"
 
 	if !bytes.Equal([]byte(wantedRes), recorder.Body.Bytes()) {
 		t.Errorf("got body %q, want %q", recorder.Body.Bytes(), wantedRes)
@@ -91,7 +91,7 @@ func TestMinimal(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "http://localhost/.well-known/security.txt", nil)
 	handler.ServeHTTP(recorder, req)
 
-	want := "Contact: mailto:security@example.com\nExpires: 2027-12-31T18:37:07Z"
+	want := "Contact: mailto:security@example.com\nExpires: 2027-12-31T18:37:07Z\n"
 	if recorder.Body.String() != want {
 		t.Errorf("got body %q, want %q", recorder.Body.String(), want)
 	}
@@ -112,7 +112,7 @@ func TestFallback(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "http://localhost/security.txt", nil)
 	handler.ServeHTTP(recorder, req)
 
-	want := "Contact: mailto:security@example.com\nExpires: 2027-12-31T18:37:07Z"
+	want := "Contact: mailto:security@example.com\nExpires: 2027-12-31T18:37:07Z\n"
 	if recorder.Body.String() != want {
 		t.Errorf("got body %q, want %q", recorder.Body.String(), want)
 	}
