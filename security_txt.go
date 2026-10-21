@@ -202,7 +202,7 @@ func (r *responseWriter) WriteHeader(statusCode int) {
 		r.statusCode = http.StatusOK
 	}
 
-	r.ResponseWriter.Header().Set("Content-Type", "text/plain")
+	r.ResponseWriter.Header().Set("Content-Type", "text/plain; charset=utf-8")
 
 	// Delegates the Content-Length Header creation to the final body write.
 	r.ResponseWriter.Header().Del("Content-Length")
