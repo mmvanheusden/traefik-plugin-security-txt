@@ -140,7 +140,7 @@ func (p *SecurityTxtPlugin) ServeHTTP(rw http.ResponseWriter, req *http.Request)
 	}
 
 	if p.enableComment {
-		body = append(body, "# The following content was added on the fly by the Security.txt Traefik plugin") // TODO: Add URL to plugin
+		body = append(body, "# The following content was added on the fly by the Security.txt Traefik plugin (See: https://plugins.traefik.io/plugins/6ad1da5af9854753ad5e9d7e/security-txt)") // TODO: Add URL to plugin
 	}
 
 	// Add Contact field(s)
