@@ -26,7 +26,7 @@ experimental:
   plugins:
     security-txt:
       moduleName: github.com/mmvanheusden/traefik-plugin-security-txt
-      version: v0.2.2
+      version: v0.2.3
 ```
 
 ## Usage

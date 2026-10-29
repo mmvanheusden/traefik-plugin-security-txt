@@ -182,7 +182,7 @@ func (p *SecurityTxtPlugin) ServeHTTP(rw http.ResponseWriter, req *http.Request)
 			body = append(body, "Preferred-Languages: "+strings.Join(p.preferredLanguages, ", "))
 		}
 	}
-	log.Printf("%v", body)
+
 	_, err := rw.Write([]byte(strings.Join(body, "\n")))
 	rw.Write([]byte("\n")) // RFC 9116: End with a empty line
 	if err != nil {
